@@ -89,6 +89,7 @@
             border: 2px solid #dee2e6;
             white-space: nowrap;
             overflow-x: auto;
+            transition: font-size 0.3s ease;
         }
         input[type="text"] {
             padding: 15px;
@@ -332,6 +333,9 @@
             document.getElementById('result').textContent = '';
             document.getElementById('questionNumber').textContent = currentProblemIndex + 1;
             
+            // 폰트 크기 자동 조정
+            adjustFontSize();
+            
             // 힌트 텍스트 숨기기
             document.getElementById('hintText').style.display = 'none';
             
@@ -347,6 +351,30 @@
 
             // 입력 필드에 포커스
             document.getElementById('answer').focus();
+        }
+
+        // 폰트 크기 자동 조정 함수
+        function adjustFontSize() {
+            const chosungElement = document.getElementById('chosung');
+            const container = document.querySelector('.quiz-container');
+            const containerWidth = container.offsetWidth - 60; // 패딩 고려
+            const text = chosungElement.textContent;
+            
+            // 초기 폰트 크기 설정
+            let fontSize = 28;
+            chosungElement.style.fontSize = fontSize + 'px';
+            
+            // 텍스트가 컨테이너보다 클 때 폰트 크기 줄이기
+            while (chosungElement.scrollWidth > containerWidth && fontSize > 16) {
+                fontSize -= 2;
+                chosungElement.style.fontSize = fontSize + 'px';
+            }
+            
+            // 모바일에서 추가 조정
+            if (window.innerWidth <= 768) {
+                const mobileFontSize = Math.min(fontSize, 24);
+                chosungElement.style.fontSize = mobileFontSize + 'px';
+            }
         }
 
         // 답안 체크
@@ -460,6 +488,13 @@
         document.getElementById('answer').addEventListener('keypress', (e) => {
             if (e.key === 'Enter' && !gameCompleted) {
                 checkAnswer();
+            }
+        });
+
+        // 화면 크기 변경 시 폰트 크기 조정
+        window.addEventListener('resize', () => {
+            if (!gameCompleted && document.getElementById('quizContainer').style.display !== 'none') {
+                adjustFontSize();
             }
         });
 
