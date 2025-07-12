@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="나무 학력 고사">
+    <title>나무 학력 고사 - 초성퀴즈</title>
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+        .container {
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+        }
+        .start-container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .start-title {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        .start-description {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+        .start-btn {
+            padding: 15px 40px;
+            font-size: 20px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+        .start-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+        .quiz-container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            display: none;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .question-info {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        .chosung {
+            font-size: 28px;
+            margin: 30px 0;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            letter-spacing: 0.2em;
+            font-weight: bold;
+            color: #333;
+            word-spacing: 0.3em;
+            border: 2px solid #dee2e6;
+            white-space: nowrap;
+            overflow-x: auto;
+            transition: font-size 0.3s ease;
+        }
+        input[type="text"] {
+            padding: 15px;
+            font-size: 18px;
+            width: 90%;
+            max-width: 400px;
+            margin: 15px 0;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            text-align: center;
+            box-sizing: border-box;
+        }
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 5px rgba(102, 126, 234, 0.3);
+        }
+        button {
+            padding: 12px 25px;
+            font-size: 18px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin: 5px;
+        }
+        button:hover {
+            background: linear-gradient(45deg, #5a6fd8, #6a4190);
+        }
+        .result {
+            margin: 20px 0;
+            font-size: 18px;
+            font-weight: bold;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
+        }
+        .score {
+            font-size: 18px;
+            color: #2ecc71;
+            font-weight: bold;
+        }
+        .time-info {
+            font-size: 16px;
+            color: #666;
+            margin: 10px 0;
+            font-style: italic;
+        }
+        .final-result {
+            display: none;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .final-score {
+            font-size: 36px;
+            color: #2ecc71;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+        .final-message {
+            font-size: 24px;
+            color: #333;
+            margin: 20px 0;
+            line-height: 1.5;
+        }
+        .restart-btn {
+            margin-top: 20px;
+            padding: 15px 30px;
+            font-size: 18px;
+            background: linear-gradient(45deg, #27ae60, #229954);
+        }
+        .restart-btn:hover {
+            background: linear-gradient(45deg, #229954, #1e8449);
+        }
+        .hint-section {
+            margin: 20px 0;
+            text-align: center;
+        }
+        .hint-btn {
+            background: linear-gradient(45deg, #9b59b6, #8e44ad);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s;
+        }
+        .hint-btn:hover {
+            background: linear-gradient(45deg, #8e44ad, #7d3c98);
+        }
+        .hint-btn:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+        }
+        .hint-text {
+            margin-top: 10px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #9b59b6;
+            font-size: 16px;
+            color: #333;
+            display: none;
+        }
+        
+        /* 모바일 반응형 */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            .start-container, .quiz-container, .final-result {
+                padding: 20px;
+            }
+            .start-title {
+                font-size: 24px;
+            }
+            .chosung {
+                font-size: 24px;
+                padding: 15px;
+            }
+            input[type="text"] {
+                width: 95%;
+                font-size: 16px;
+            }
+            button {
+                padding: 10px 20px;
+                font-size: 16px;
+            }
+            .result {
+                font-size: 16px;
+            }
+            .final-score {
+                font-size: 28px;
+            }
+            .final-message {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎓 나무 학력 고사 - 초성퀴즈</h1>
+        
+        <!-- Start Container -->
+        <div class="start-container" id="startContainer">
+            <div class="start-title">🎓 나무 학력 고사에 오신 것을<br>환영합니다!</div>
+            <div class="start-description">
+                총 25문제의 초성 퀴즈를 풀어보세요.<br>
+                각 문제당 4점, 총점 100점입니다.<br>
+                힌트는 총 10번 사용할 수 있습니다.<br>
+                시간 제한은 없으니 천천히 풀어보세요!
+            </div>
+            <button class="start-btn" onclick="startGame()">시작하기</button>
+        </div>
+        
+        <!-- Quiz Container -->
+        <div class="quiz-container" id="quizContainer">
+            <div class="question-info">
+                문제 <span id="questionNumber">1</span>/25
+            </div>
+            <div class="chosung" id="chosung"></div>
+            <div class="hint-section">
+                <button id="hintBtn" onclick="showHint()" class="hint-btn">힌트 보기 (남은 횟수: <span id="hintCount">10</span>)</button>
+                <div id="hintText" class="hint-text"></div>
+            </div>
+            <input type="text" id="answer" placeholder="가사를 입력하세요">
+            <button onclick="checkAnswer()">제출</button>
+            <div class="result" id="result"></div>
+            <div class="score">점수: <span id="score">0</span>/100</div>
+            <div class="time-info">소요 시간: <span id="elapsedTime">00:00</span></div>
+        </div>
+
+        <!-- Final Result Container -->
+        <div class="final-result" id="finalResult">
+            <h2>퀴즈 완료!</h2>
+            <div class="final-score" id="finalScore"></div>
+            <div class="final-message" id="finalMessage"></div>
+            <button class="restart-btn" onclick="restartGame()">다시 시작</button>
+        </div>
+    </div>
+
+    <script>
+        // 25개의 문제 데이터
+        const problems = [
+            { chosung: "ㅅㄹㅇ ㅍㅇㄴㄴ ㄱㄹㅇ ㄱㄹㅂ", answer: "사랑이 피어나는 그림을 그려봐", album: "BABY BABY" },
+            { chosung: "ㅇㄹㅇ ㅁㄴㅇ ㅇㅁㅇ ㅇㄴㄲ", answer: "우리의 만남은 운명이 아닐까", album: "너의 남자" },
+            { chosung: "ㄴ ㄱㅇ ㅁㅁㄹㅈㅇ", answer: "내 곁에 머물러줘요", album: "Stand by me" },
+            { chosung: "ㅇㅇㅎㅇ ㅁㄷ ㄱㅁㅎㄱ ㅇㄷㅇ", answer: "영원함을 모두 갈망하고 있듯이", album: "Rain" },
+            { chosung: "ㄲㄴ ㅁㅈㄱ ㅇㄱㅈ ㅁㅎㄷ ㄷ", answer: "끝내 멋지게 이기지 못해도 돼", album: "Smile" },
+            { chosung: "ㅇㄴㄸㄹ ㄴㄱ ㅅㄱㄴㄴ ㅂ", answer: "오늘따라 네가 생각나는 밤", album: "오늘따라" },
+            { chosung: "ㅇㅌ ㅇㄹㄷㅇ ㅎㅅㅇ ㄴ ㅂㅊㄱ", answer: "온통 아름다운 햇살이 날 비추고", album: "낙원" },
+            { chosung: "ㄱㅇ ㅂㄷㅇ ㄴㄱ ㅇㅇ", answer: "겨울 바다에 네가 있어", album: "Save Us" },
+            { chosung: "ㅅㄹㅇ ㅉㅇ ㅅㅁㅇㄹ ㅁ", answer: "사랑은 짧은 선물이란 말", album: "그 사람" },
+            { chosung: "ㄴ ㅇㅈ ㄴㅁㅇ ㅊㅅ", answer: "넌 오직 나만의 천사", album: "lonely Night" },
+            { chosung: "ㅎㅅㅊㄹ ㄴㄱ ㅇㄲㄹ", answer: "혜성처럼 네게 이끌려", album: "Shooting Star" },
+            { chosung: "ㅅㄹㅇ ㅎ ㄸㄴ ㅅㅅㅎㄱ", answer: "사랑을 할 때는 순수하게", album: "사랑이 올 때" },
+            { chosung: "ㄴㅁ ㅇㅇㅈㅁ ㄷㄴ ㄴㄹ", answer: "너만 웃어주면 되는 노래", album: "지금 이 노래" },
+            { chosung: "ㅂㅇ ㅅ ㅇㅇㄱ", answer: "봄에 서 있을게", album: "선인장" },
+            { chosung: "ㄴㄹㅅ ㅈㅁ ㅎㅇㅇㅇ ㄴ", answer: "너라서 정말 행운이야 난", album: "넌 나만 바라봐" },
+            { chosung: "ㄴㄱ ㅅㄱ ㅍㅇㄴ ㅇㅇ", answer: "내게 숨길 필요는 없어", album: "Kiss me if you love me" },
+            { chosung: "ㅅㄹㄱ ㅇㅁㅇㄷ ㅅㄱㄷ", answer: "서로가 의미였던 시간들", album: "눈부셨다" },
+            { chosung: "ㅂㄱ ㅇㅎㅅㅇ ㄴㅁㅇ", answer: "별과 은하수의 너머에", album: "FULL MOON" },
+            { chosung: "ㄴ ㅈ ㅎㄴㅇ ㄷㄱ ㅁㅅㅎ", answer: "난 저 하늘에 대고 맹세해", album: "I swear" },
+            { chosung: "ㄴㄴ ㄱㅇ ㅈㄹㅇ ㄱㄷㄹ", answer: "나는 같은 자리에 그대로", album: "같은 자리" },
+            { chosung: "ㄴ ㅁㄷ ㄱ ㄱㅇㅎㄱ", answer: "네 모든 걸 기억할게", album: "I'll be alright" },
+            { chosung: "ㄴ ㅁㅇ ㅇㅈㅎ ㄴ ㅇㅎㅇ", answer: "내 맘은 온전히 널 위했어", album: "불장난" },
+            { chosung: "ㅅㄱㅇ ㅁㅊ ㄱ ㅅㄱ", answer: "시간이 멈춘 그 순간", album: "냉정과 열정 사이" },
+            { chosung: "ㄱㅎ ㅇㅅㅁ ㅎㄴ ㄴㄹ ㅁㅈ ㅁㅎㄴ", answer: "괜한 의심만 했나 너를 믿지 못했나", album: "너만 괜찮다면" },
+            { chosung: "ㄴ ㅅㄹㄱ ㄸ ㄷㄹ ㄴㄹ ㅊㄷㅎ", answer: "난 새롭게 또 다른 나를 초대해", album: "Love Myself" }
+        ];
+
+        // 게임 상태 변수
+        let currentProblemIndex = 0;
+        let score = 0;
+        let gameCompleted = false;
+        let hintCount = 10; // 힌트 사용 가능 횟수
+        let startTime; // 게임 시작 시간
+        let timerInterval; // 타이머 인터벌
+
+        // 게임 초기화 및 시작
+        function startGame() {
+            document.getElementById('startContainer').style.display = 'none';
+            document.getElementById('quizContainer').style.display = 'block';
+            startTime = new Date(); // 게임 시작 시간 기록
+            startProblem();
+            startTimer(); // 타이머 시작
+        }
+
+        function startProblem() {
+            if (currentProblemIndex >= problems.length) {
+                showFinalResult();
+                return;
+            }
+
+            const problem = problems[currentProblemIndex];
+            document.getElementById('chosung').textContent = problem.chosung;
+            document.getElementById('answer').value = '';
+            document.getElementById('result').textContent = '';
+            document.getElementById('questionNumber').textContent = currentProblemIndex + 1;
+            
+            // 폰트 크기 자동 조정
+            adjustFontSize();
+            
+            // 힌트 텍스트 숨기기
+            document.getElementById('hintText').style.display = 'none';
+            
+            // 힌트 버튼 상태 업데이트
+            const hintBtn = document.getElementById('hintBtn');
+            if (hintCount <= 0) {
+                hintBtn.disabled = true;
+                hintBtn.textContent = '힌트 사용 완료';
+            } else {
+                hintBtn.disabled = false;
+                hintBtn.innerHTML = `힌트 보기 (남은 횟수: <span id="hintCount">${hintCount}</span>)`;
+            }
+
+            // 입력 필드에 포커스
+            document.getElementById('answer').focus();
+        }
+
+        // 폰트 크기 자동 조정 함수
+        function adjustFontSize() {
+            const chosungElement = document.getElementById('chosung');
+            const container = document.querySelector('.quiz-container');
+            const containerWidth = container.offsetWidth - 60; // 패딩 고려
+            const text = chosungElement.textContent;
+            
+            // 초기 폰트 크기 설정
+            let fontSize = 28;
+            chosungElement.style.fontSize = fontSize + 'px';
+            
+            // 텍스트가 컨테이너보다 클 때 폰트 크기 줄이기
+            while (chosungElement.scrollWidth > containerWidth && fontSize > 16) {
+                fontSize -= 2;
+                chosungElement.style.fontSize = fontSize + 'px';
+            }
+            
+            // 모바일에서 추가 조정
+            if (window.innerWidth <= 768) {
+                const mobileFontSize = Math.min(fontSize, 24);
+                chosungElement.style.fontSize = mobileFontSize + 'px';
+            }
+        }
+
+        // 답안 체크
+        function checkAnswer() {
+            const userAnswer = document.getElementById('answer').value.trim();
+            const problem = problems[currentProblemIndex];
+            const resultDiv = document.getElementById('result');
+
+            if (userAnswer === problem.answer) {
+                // 정답 처리
+                resultDiv.textContent = "✅ 정답! +4점";
+                resultDiv.style.color = "#2ecc71";
+                score += 4;
+            } else {
+                // 오답 처리
+                resultDiv.textContent = `❌ 오답! 정답: ${problem.answer}`;
+                resultDiv.style.color = "#e74c3c";
+            }
+
+            // 점수 업데이트
+            document.getElementById('score').textContent = score;
+
+            // 1.5초 후 다음 문제로 전환
+            setTimeout(() => {
+                currentProblemIndex++;
+                startProblem();
+            }, 1500);
+        }
+
+        // 최종 결과 표시
+        function showFinalResult() {
+            gameCompleted = true;
+            clearInterval(timerInterval); // 타이머 중지
+            
+            document.getElementById('quizContainer').style.display = 'none';
+            document.getElementById('finalResult').style.display = 'block';
+            
+            const finalScoreElement = document.getElementById('finalScore');
+            const finalMessageElement = document.getElementById('finalMessage');
+            
+            // 총 소요 시간 계산
+            const endTime = new Date();
+            const totalTime = Math.floor((endTime - startTime) / 1000);
+            const minutes = Math.floor(totalTime / 60);
+            const seconds = totalTime % 60;
+            const timeString = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            
+            finalScoreElement.innerHTML = `최종 점수: ${score}점<br><small>총 소요 시간: ${timeString}</small>`;
+            
+            // 점수에 따른 메시지 설정
+            let message = "";
+            if (score >= 75) {
+                message = "🌳 나무대학교 입학을 축하드립니다!<br>당신은 자랑스러운 나무대 25학번! 🎉";
+            } else if (score >= 50) {
+                message = "🎓 나무고등학교 입학을 축하드립니다!<br>하지만 나무대학교 가려면 아직 분발이 필요해요! 💪";
+            } else if (score >= 25) {
+                message = "📖 학생, 이렇게는 나무고 입학 어렵습니다!<br>나무고 입학을 위해 예습 더 열심히 하기!!";
+            } else {
+                message = "🐥 당신은 나무초등학교 1학년이시군요!<br>숙제로 남우현 가사 다 외워오기! 🍀";
+            }
+            
+            finalMessageElement.innerHTML = message;
+        }
+
+        // 게임 재시작
+        function restartGame() {
+            currentProblemIndex = 0;
+            score = 0;
+            gameCompleted = false;
+            hintCount = 10; // 힌트 사용 가능 횟수 초기화
+            startTime = null; // 시작 시간 초기화
+            clearInterval(timerInterval); // 타이머 중지
+            
+            document.getElementById('startContainer').style.display = 'block';
+            document.getElementById('quizContainer').style.display = 'none';
+            document.getElementById('finalResult').style.display = 'none';
+            document.getElementById('score').textContent = '0';
+            document.getElementById('hintCount').textContent = '10'; // 힌트 사용 가능 횟수 표시
+            document.getElementById('hintText').style.display = 'none'; // 힌트 텍스트 숨기기
+            document.getElementById('elapsedTime').textContent = '00:00'; // 소요 시간 표시
+        }
+
+        // 타이머 함수
+        function startTimer() {
+            let elapsedSeconds = 0;
+            timerInterval = setInterval(() => {
+                elapsedSeconds++;
+                const minutes = Math.floor(elapsedSeconds / 60);
+                const seconds = elapsedSeconds % 60;
+                document.getElementById('elapsedTime').textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            }, 1000);
+        }
+
+        // 힌트 표시
+        function showHint() {
+            if (hintCount <= 0) {
+                alert("힌트 사용 횟수가 모두 소진되었습니다.");
+                return;
+            }
+
+            hintCount--;
+            document.getElementById('hintCount').textContent = hintCount;
+
+            const problem = problems[currentProblemIndex];
+            const hintTextElement = document.getElementById('hintText');
+            hintTextElement.textContent = `힌트: ${problem.album}`; // 앨범 이름을 힌트로 표시
+            hintTextElement.style.display = 'block';
+        }
+
+        // Enter 키로 제출
+        document.getElementById('answer').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !gameCompleted) {
+                checkAnswer();
+            }
+        });
+
+        // 화면 크기 변경 시 폰트 크기 조정
+        window.addEventListener('resize', () => {
+            if (!gameCompleted && document.getElementById('quizContainer').style.display !== 'none') {
+                adjustFontSize();
+            }
+        });
+
+        // 게임 시작
+        // startProblem(); // This line is now handled by startGame()
+    </script>
+</body>
+</html>
+
