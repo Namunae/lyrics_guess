@@ -14,11 +14,34 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            background: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background-image: 
+                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             margin: 0;
             padding: 20px;
             min-height: 100vh;
             box-sizing: border-box;
+            position: relative;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y="50" font-size="12" fill="rgba(255,255,255,0.08)">🎓</text></svg>'),
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y="50" font-size="10" fill="rgba(255,255,255,0.06)">📚</text></svg>'),
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y="50" font-size="8" fill="rgba(255,255,255,0.05)">✏️</text></svg>'),
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y="50" font-size="9" fill="rgba(255,255,255,0.04)">🏫</text></svg>'),
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y="50" font-size="7" fill="rgba(255,255,255,0.03)">📝</text></svg>');
+            background-size: 120px 120px, 100px 100px, 80px 80px, 150px 150px, 90px 90px;
+            background-position: 0 0, 60px 60px, 120px 120px, 30px 30px, 90px 90px;
+            pointer-events: none;
+            z-index: -1;
         }
         .container {
             max-width: 600px;
@@ -26,11 +49,13 @@
             text-align: center;
         }
         .start-container {
-            background: white;
+            background: rgba(255, 255, 255, 0.95);
             padding: 40px;
             border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
             margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
         .start-title {
             font-size: 28px;
@@ -47,24 +72,26 @@
         .start-btn {
             padding: 15px 40px;
             font-size: 20px;
-            background: linear-gradient(45deg, #3498db, #2980b9);
+            background: linear-gradient(45deg, #667eea, #764ba2);
             color: white;
             border: none;
             border-radius: 10px;
             cursor: pointer;
             transition: all 0.3s;
-            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
         }
         .start-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
         }
         .quiz-container {
-            background: white;
+            background: rgba(255, 255, 255, 0.95);
             padding: 30px;
             border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
             display: none;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
         .question-info {
             font-size: 18px;
@@ -74,15 +101,15 @@
         .chosung {
             font-size: 28px;
             margin: 30px 0;
-            background: #f8f9fa;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             letter-spacing: 0.2em;
             font-weight: bold;
             color: #333;
             word-spacing: 0.3em;
-            border: 2px solid #e9ecef;
+            border: 2px solid #dee2e6;
             white-space: nowrap;
             overflow-x: auto;
         }
@@ -99,13 +126,13 @@
         }
         input[type="text"]:focus {
             outline: none;
-            border-color: #3498db;
-            box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+            border-color: #667eea;
+            box-shadow: 0 0 5px rgba(102, 126, 234, 0.3);
         }
         button {
             padding: 12px 25px;
             font-size: 18px;
-            background: #3498db;
+            background: linear-gradient(45deg, #667eea, #764ba2);
             color: white;
             border: none;
             border-radius: 8px;
@@ -114,7 +141,7 @@
             margin: 5px;
         }
         button:hover {
-            background: #2980b9;
+            background: linear-gradient(45deg, #5a6fd8, #6a4190);
         }
         .result {
             margin: 20px 0;
@@ -126,13 +153,21 @@
             color: #2ecc71;
             font-weight: bold;
         }
+        .time-info {
+            font-size: 16px;
+            color: #666;
+            margin: 10px 0;
+            font-style: italic;
+        }
         .final-result {
             display: none;
-            background: white;
+            background: rgba(255, 255, 255, 0.95);
             padding: 40px;
             border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
             text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
         .final-score {
             font-size: 36px;
@@ -150,17 +185,17 @@
             margin-top: 20px;
             padding: 15px 30px;
             font-size: 18px;
-            background: #27ae60;
+            background: linear-gradient(45deg, #27ae60, #229954);
         }
         .restart-btn:hover {
-            background: #229954;
+            background: linear-gradient(45deg, #229954, #1e8449);
         }
         .hint-section {
             margin: 20px 0;
             text-align: center;
         }
         .hint-btn {
-            background: #9b59b6;
+            background: linear-gradient(45deg, #9b59b6, #8e44ad);
             color: white;
             padding: 10px 20px;
             border: none;
@@ -170,7 +205,7 @@
             transition: background 0.3s;
         }
         .hint-btn:hover {
-            background: #8e44ad;
+            background: linear-gradient(45deg, #8e44ad, #7d3c98);
         }
         .hint-btn:disabled {
             background: #bdc3c7;
@@ -221,7 +256,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>나무 학력 고사 - 초성퀴즈편</h1>
+        <h1>🎓 나무 학력 고사 - 초성퀴즈편 📚</h1>
         
         <!-- Start Container -->
         <div class="start-container" id="startContainer">
@@ -229,7 +264,7 @@
             <div class="start-description">
                 총 25문제의 초성 퀴즈를 풀어보세요.<br>
                 각 문제당 4점, 총점 100점입니다.<br>
-                힌트는 총 5번 사용할 수 있습니다.<br>
+                힌트는 총 10번 사용할 수 있습니다.<br>
                 시간 제한은 없으니 천천히 풀어보세요!
             </div>
             <button class="start-btn" onclick="startGame()">시작하기</button>
@@ -242,13 +277,14 @@
             </div>
             <div class="chosung" id="chosung"></div>
             <div class="hint-section">
-                <button id="hintBtn" onclick="showHint()" class="hint-btn">힌트 보기 (남은 횟수: <span id="hintCount">5</span>)</button>
+                <button id="hintBtn" onclick="showHint()" class="hint-btn">힌트 보기 (남은 횟수: <span id="hintCount">10</span>)</button>
                 <div id="hintText" class="hint-text"></div>
             </div>
             <input type="text" id="answer" placeholder="가사를 입력하세요">
             <button onclick="checkAnswer()">제출</button>
             <div class="result" id="result"></div>
             <div class="score">점수: <span id="score">0</span>/100</div>
+            <div class="time-info">소요 시간: <span id="elapsedTime">00:00</span></div>
         </div>
 
         <!-- Final Result Container -->
@@ -263,10 +299,10 @@
     <script>
         // 25개의 문제 데이터
         const problems = [
-            { chosung: "ㄴ ㅅㅇ ㅈㄱ ㅂㅇ ㅁㅊ", answer: "내 손을 잡고 발을 맞춰", album: "BABY BABY" },
+            { chosung: "ㅅㄹㅇ ㅍㅇㄴㄴ ㄱㄹㅇ ㄱㄹㅂ", answer: "사랑이 피어나는 그림을 그려봐", album: "BABY BABY" },
             { chosung: "ㅇㄹㅇ ㅁㄴㅇ ㅇㅁㅇ ㅇㄴㄲ", answer: "우리의 만남은 운명이 아닐까", album: "너의 남자" },
             { chosung: "ㄴ ㄱㅇ ㅁㅁㄹㅈㅇ", answer: "내 곁에 머물러줘요", album: "Stand by me" },
-            { chosung: "ㄱㅇㅇ ㅇㅁ ㄴ ㅊㅇㄱ", answer: "가을이 오면 널 찾을게", album: "가을이 오면" },
+            { chosung: "ㅇㅇㅎㅇ ㅁㄷ ㄱㅁㅎㄱ ㅇㄷㅇ", answer: "영원함을 모두 갈망하고 있듯이", album: "Rain" },
             { chosung: "ㄲㄴ ㅁㅈㄱ ㅇㄱㅈ ㅁㅎㄷ ㄷ", answer: "끝내 멋지게 이기지 못해도 돼", album: "Smile" },
             { chosung: "ㅇㄴㄸㄹ ㄴㄱ ㅅㄱㄴㄴ ㅂ", answer: "오늘따라 네가 생각나는 밤", album: "오늘따라" },
             { chosung: "ㅇㅌ ㅇㄹㄷㅇ ㅎㅅㅇ ㄴ ㅂㅊㄱ", answer: "온통 아름다운 햇살이 날 비추고", album: "낙원" },
@@ -285,8 +321,8 @@
             { chosung: "ㄴㄴ ㄱㅇ ㅈㄹㅇ ㄱㄷㄹ", answer: "나는 같은 자리에 그대로", album: "같은 자리" },
             { chosung: "ㄴ ㅁㄷ ㄱ ㄱㅇㅎㄱ", answer: "네 모든 걸 기억할게", album: "I'll be alright" },
             { chosung: "ㄴ ㅁㅇ ㅇㅈㅎ ㄴ ㅇㅎㅇ", answer: "내 맘은 온전히 널 위했어", album: "불장난" },
-            { chosung: "ㅇㄷㅇ ㅊㅇㅇ ㅅㄱ", answer: "어둠이 찾아온 순간", album: "냉정과 열정 사이" },
-            { chosung: "ㄴ ㄱㅇ ㅅ ㄱㅇ ㄴㅁ", answer: "내 굳은 살 같은 눈물", album: "끄덕끄덕" },
+            { chosung: "ㅅㄱㅇ ㅁㅊ ㄱ ㅅㄱ", answer: "시간이 멈춘 그 순간", album: "냉정과 열정 사이" },
+            { chosung: "ㄱㅎ ㅇㅅㅁ ㅎㄴ ㄴㄹ ㅁㅈ ㅁㅎㄴ", answer: "괜한 의심만 했나 너를 믿지 못했나", album: "너만 괜찮다면" },
             { chosung: "ㄴ ㅅㄹㄱ ㄸ ㄷㄹ ㄴㄹ ㅊㄷㅎ", answer: "난 새롭게 또 다른 나를 초대해", album: "Love Myself" }
         ];
 
@@ -294,13 +330,17 @@
         let currentProblemIndex = 0;
         let score = 0;
         let gameCompleted = false;
-        let hintCount = 5; // 힌트 사용 가능 횟수
+        let hintCount = 10; // 힌트 사용 가능 횟수
+        let startTime; // 게임 시작 시간
+        let timerInterval; // 타이머 인터벌
 
         // 게임 초기화 및 시작
         function startGame() {
             document.getElementById('startContainer').style.display = 'none';
             document.getElementById('quizContainer').style.display = 'block';
+            startTime = new Date(); // 게임 시작 시간 기록
             startProblem();
+            startTimer(); // 타이머 시작
         }
 
         function startProblem() {
@@ -362,27 +402,36 @@
         // 최종 결과 표시
         function showFinalResult() {
             gameCompleted = true;
+            clearInterval(timerInterval); // 타이머 중지
+            
             document.getElementById('quizContainer').style.display = 'none';
             document.getElementById('finalResult').style.display = 'block';
             
             const finalScoreElement = document.getElementById('finalScore');
             const finalMessageElement = document.getElementById('finalMessage');
             
-            finalScoreElement.textContent = `최종 점수: ${score}점`;
+            // 총 소요 시간 계산
+            const endTime = new Date();
+            const totalTime = Math.floor((endTime - startTime) / 1000);
+            const minutes = Math.floor(totalTime / 60);
+            const seconds = totalTime % 60;
+            const timeString = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            
+            finalScoreElement.innerHTML = `최종 점수: ${score}점<br><small>총 소요 시간: ${timeString}</small>`;
             
             // 점수에 따른 메시지 설정
             let message = "";
             if (score >= 75) {
-                message = "🌳 나무대학교 입학을 축하드립니다! 당신은 자랑스러운 나무대 25학번! 🎉";
+                message = "🌳 나무대학교 입학을 축하드립니다!<br>당신은 자랑스러운 나무대 25학번! 🎉";
             } else if (score >= 50) {
-                message = "🎓 나무고등학교 입학을 축하드립니다! 하지만 나무대학교 가려면 아직 분발이 필요해요! 💪";
+                message = "🎓 나무고등학교 입학을 축하드립니다!<br>하지만 나무대학교 가려면 아직 분발이 필요해요! 💪";
             } else if (score >= 25) {
-                message = "📖 학생, 이렇게는 나무고 입학 어렵습니다! 나무고 입학을 위해 예습 더 열심히 하기!!";
+                message = "📖 학생, 이렇게는 나무고 입학 어렵습니다!<br>나무고 입학을 위해 예습 더 열심히 하기!!";
             } else {
-                message = "🐥 당신은 나무초등학교 1학년이시군요! 숙제로 남우현 가사 다 외워오기! 🍀";
+                message = "🐥 당신은 나무초등학교 1학년이시군요!<br>숙제로 남우현 가사 다 외워오기! 🍀";
             }
             
-            finalMessageElement.textContent = message;
+            finalMessageElement.innerHTML = message;
         }
 
         // 게임 재시작
@@ -390,14 +439,28 @@
             currentProblemIndex = 0;
             score = 0;
             gameCompleted = false;
-            hintCount = 5; // 힌트 사용 가능 횟수 초기화
+            hintCount = 10; // 힌트 사용 가능 횟수 초기화
+            startTime = null; // 시작 시간 초기화
+            clearInterval(timerInterval); // 타이머 중지
             
             document.getElementById('startContainer').style.display = 'block';
             document.getElementById('quizContainer').style.display = 'none';
             document.getElementById('finalResult').style.display = 'none';
             document.getElementById('score').textContent = '0';
-            document.getElementById('hintCount').textContent = '5'; // 힌트 사용 가능 횟수 표시
+            document.getElementById('hintCount').textContent = '10'; // 힌트 사용 가능 횟수 표시
             document.getElementById('hintText').style.display = 'none'; // 힌트 텍스트 숨기기
+            document.getElementById('elapsedTime').textContent = '00:00'; // 소요 시간 표시
+        }
+
+        // 타이머 함수
+        function startTimer() {
+            let elapsedSeconds = 0;
+            timerInterval = setInterval(() => {
+                elapsedSeconds++;
+                const minutes = Math.floor(elapsedSeconds / 60);
+                const seconds = elapsedSeconds % 60;
+                document.getElementById('elapsedTime').textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            }, 1000);
         }
 
         // 힌트 표시
