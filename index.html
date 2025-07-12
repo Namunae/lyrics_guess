@@ -7,7 +7,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="나무 학력 고사">
-    <title>나무 학력 고사 - 초성퀴즈편</title>
+    <title>나무 학력 고사 - 초성퀴즈</title>
     <style>
         body {
             font-family: 'Noto Sans KR', sans-serif;
@@ -123,8 +123,12 @@
         }
         .result {
             margin: 20px 0;
-            font-size: 20px;
+            font-size: 18px;
             font-weight: bold;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
         }
         .score {
             font-size: 18px;
@@ -223,6 +227,9 @@
                 padding: 10px 20px;
                 font-size: 16px;
             }
+            .result {
+                font-size: 16px;
+            }
             .final-score {
                 font-size: 28px;
             }
@@ -234,7 +241,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>🎓 나무 학력 고사 - 초성퀴즈편 📚</h1>
+        <h1>🎓 나무 학력 고사 - 초성퀴즈 📚</h1>
         
         <!-- Start Container -->
         <div class="start-container" id="startContainer">
@@ -390,7 +397,7 @@
                 score += 4;
             } else {
                 // 오답 처리
-                resultDiv.textContent = `❌ 오답... 정답은 '${problem.answer}'`;
+                resultDiv.textContent = `❌ 오답! 정답: ${problem.answer}`;
                 resultDiv.style.color = "#e74c3c";
             }
 
