@@ -1,0 +1,347 @@
+/* 포잉 앱 전용 스타일 */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+/* 포잉이 캐릭터 애니메이션 */
+@keyframes poingBounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes poingWiggle {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-2deg);
+  }
+  75% {
+    transform: rotate(2deg);
+  }
+}
+
+/* 포잉이 성장 애니메이션 */
+@keyframes seedGrow {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+@keyframes sproutGrow {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes flowerBloom {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.08);
+  }
+}
+
+@keyframes fullBloom {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+@keyframes petalGlow {
+  0%, 100% {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+}
+
+@keyframes fullPetalGlow {
+  0%, 100% {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+}
+
+.poing-character {
+  animation: poingBounce 2s ease-in-out infinite;
+}
+
+.poing-character:hover {
+  animation: poingWiggle 0.5s ease-in-out;
+}
+
+/* 카드 호버 효과 */
+.MuiPaper-root {
+  transition: all 0.3s ease-in-out !important;
+}
+
+.MuiPaper-root:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* 탭 호버 효과 */
+.MuiTab-root {
+  transition: all 0.3s ease-in-out !important;
+}
+
+.MuiTab-root:hover {
+  background-color: rgba(76, 175, 80, 0.1) !important;
+  border-radius: 8px 8px 0 0;
+}
+
+/* 버튼 호버 효과 */
+.MuiButton-root {
+  transition: all 0.3s ease-in-out !important;
+}
+
+.MuiButton-root:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3) !important;
+}
+
+/* 그라데이션 배경 */
+.gradient-bg {
+  background: linear-gradient(135deg, #e8f5e8 0%, #f1f8e9 100%);
+}
+
+/* 부드러운 스크롤 */
+html {
+  scroll-behavior: smooth;
+}
+
+/* 커스텀 스크롤바 */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c8e6c9;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a5d6a7;
+}
+
+/* 반응형 그리드 개선 */
+@media (max-width: 600px) {
+  .MuiContainer-root {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+  
+  .MuiPaper-root {
+    margin: 0 8px !important;
+  }
+}
+
+/* 포잉이 말풍선 애니메이션 */
+@keyframes messageSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.chat-message {
+  animation: messageSlideIn 0.3s ease-out;
+}
+
+/* 체크리스트 아이템 호버 */
+.checklist-item {
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.checklist-item:hover {
+  background-color: rgba(76, 175, 80, 0.05);
+  border-radius: 8px;
+  padding: 4px;
+  margin: -4px;
+}
+
+/* 퀴즈 옵션 호버 효과 */
+.quiz-option {
+  transition: all 0.2s ease-in-out;
+}
+
+.quiz-option:hover {
+  background-color: rgba(76, 175, 80, 0.1) !important;
+  transform: scale(1.02);
+}
+
+/* 알림 카드 깜빡 효과 */
+@keyframes notificationPulse {
+  0%, 100% {
+    box-shadow: 0 2px 8px rgba(255, 183, 77, 0.3);
+  }
+  50% {
+    box-shadow: 0 4px 16px rgba(255, 183, 77, 0.5);
+  }
+}
+
+.notification-card {
+  animation: notificationPulse 2s ease-in-out infinite;
+}
+
+/* 로딩 애니메이션 */
+@keyframes loadingSpin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-spinner {
+  animation: loadingSpin 1s linear infinite;
+}
+
+/* 포커스 스타일 개선 */
+.MuiButton-root:focus,
+.MuiTab-root:focus {
+  outline: 2px solid #4caf50;
+  outline-offset: 2px;
+}
+
+/* 접근성 개선 */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* 다크모드 지원 (선택적) */
+@media (prefers-color-scheme: dark) {
+  body {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+  }
+}
+
+/* 슬라이더 커스텀 스타일 */
+.MuiSlider-root {
+  color: #4caf50 !important;
+}
+
+.MuiSlider-track {
+  background: linear-gradient(90deg, #4caf50 0%, #81c784 100%) !important;
+}
+
+.MuiSlider-thumb {
+  background: #4caf50 !important;
+  box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3) !important;
+}
+
+.MuiSlider-thumb:hover {
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4) !important;
+}
+
+/* 칩 스타일 */
+.MuiChip-root {
+  font-weight: 600 !important;
+}
+
+/* 카드 그라데이션 효과 */
+.gradient-card {
+  background: linear-gradient(135deg, #f8fff8 0%, #f0f8f0 100%);
+  border: 1px solid #e8f5e8;
+}
+
+/* 알림 애니메이션 */
+@keyframes alertSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.MuiAlert-root {
+  animation: alertSlideIn 0.3s ease-out;
+}
+
+/* 말풍선 애니메이션 */
+@keyframes speechBubblePop {
+  0% {
+    opacity: 0;
+    transform: scale(0.8) translateY(10px);
+  }
+  50% {
+    transform: scale(1.05) translateY(-2px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.speech-bubble {
+  animation: speechBubblePop 0.4s ease-out;
+}
+
+/* 성장 단계별 색상 변화 */
+.growth-seed {
+  background: linear-gradient(135deg, #4caf50 0%, #388e3c 100%);
+}
+
+.growth-sprout {
+  background: linear-gradient(135deg, #66bb6a 0%, #4caf50 100%);
+}
+
+.growth-flower {
+  background: linear-gradient(135deg, #81c784 0%, #66bb6a 100%);
+}
+
+.growth-full {
+  background: linear-gradient(135deg, #a5d6a7 0%, #81c784 100%);
+}

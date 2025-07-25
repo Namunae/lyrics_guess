@@ -1,0 +1,1045 @@
+import React, { useState } from 'react';
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Box,
+  Tabs,
+  Tab,
+  Container,
+  Paper,
+  ThemeProvider,
+  createTheme,
+  CssBaseline,
+  Slider,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  Button,
+  Chip,
+  Avatar,
+  LinearProgress
+} from '@mui/material';
+import {
+  TrendingUp as TrendingUpIcon,
+  CardGiftcard as GiftIcon,
+  ChildCare as ChildCareIcon,
+  Quiz as QuizIcon,
+  PregnantWoman as PregnantWomanIcon,
+  AttachMoney as MoneyIcon,
+  LocationOn as LocationIcon,
+  FamilyRestroom as FamilyIcon
+} from '@mui/icons-material';
+import './App.css';
+
+// 포잉이 캐릭터 컴포넌트 (반응형)
+const PoingCharacter = ({ size = 60, style = {}, pregnancyWeek = 24, mood = 'happy' }) => {
+  const getCharacterState = () => {
+    if (pregnancyWeek <= 12) return 'seed';
+    if (pregnancyWeek <= 24) return 'sprout';
+    if (pregnancyWeek <= 36) return 'flower';
+    return 'full';
+  };
+
+  const characterState = getCharacterState();
+  const moodEmoji = {
+    happy: '😊',
+    excited: '🤗',
+    thoughtful: '🧐',
+    caring: '🥰'
+  };
+
+  return (
+    <Box
+      className="poing-character"
+      sx={{
+        width: size,
+        height: size,
+        borderRadius: '50%',
+        background: 'linear-gradient(135deg, #81c784 0%, #66bb6a 100%)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        position: 'relative',
+        boxShadow: '0 4px 12px rgba(129, 199, 132, 0.3)',
+        ...style
+      }}
+    >
+      {/* 캐릭터 상태에 따른 모양 변화 */}
+      {characterState === 'seed' && (
+        <Box
+          sx={{
+            width: size * 0.3,
+            height: size * 0.3,
+            background: 'linear-gradient(135deg, #4caf50 0%, #388e3c 100%)',
+            borderRadius: '50%',
+            position: 'relative',
+          }}
+        />
+      )}
+      
+      {characterState === 'sprout' && (
+        <Box
+          sx={{
+            width: size * 0.4,
+            height: size * 0.6,
+            background: 'linear-gradient(135deg, #4caf50 0%, #388e3c 100%)',
+            borderRadius: '50% 50% 50% 50% / 60% 60% 40% 40%',
+            position: 'relative',
+            '&::before': {
+              content: '""',
+              position: 'absolute',
+              top: -size * 0.1,
+              left: '50%',
+              transform: 'translateX(-50%)',
+              width: size * 0.2,
+              height: size * 0.2,
+              background: '#4caf50',
+              borderRadius: '50%',
+            }
+          }}
+        />
+      )}
+
+      {characterState === 'flower' && (
+        <Box
+          sx={{
+            width: size * 0.5,
+            height: size * 0.7,
+            background: 'linear-gradient(135deg, #4caf50 0%, #388e3c 100%)',
+            borderRadius: '50% 50% 50% 50% / 60% 60% 40% 40%',
+            position: 'relative',
+            '&::before': {
+              content: '""',
+              position: 'absolute',
+              top: -size * 0.15,
+              left: '50%',
+              transform: 'translateX(-50%)',
+              width: size * 0.3,
+              height: size * 0.3,
+              background: '#ffb3d9',
+              borderRadius: '50%',
+              boxShadow: '0 0 10px rgba(255, 179, 217, 0.5)',
+            }
+          }}
+        />
+      )}
+
+      {characterState === 'full' && (
+        <Box
+          sx={{
+            width: size * 0.6,
+            height: size * 0.8,
+            background: 'linear-gradient(135deg, #4caf50 0%, #388e3c 100%)',
+            borderRadius: '50% 50% 50% 50% / 60% 60% 40% 40%',
+            position: 'relative',
+            '&::before': {
+              content: '""',
+              position: 'absolute',
+              top: -size * 0.2,
+              left: '50%',
+              transform: 'translateX(-50%)',
+              width: size * 0.4,
+              height: size * 0.4,
+              background: '#ffb3d9',
+              borderRadius: '50%',
+              boxShadow: '0 0 15px rgba(255, 179, 217, 0.6)',
+            }
+          }}
+        />
+      )}
+
+      {/* 눈 */}
+      <Box
+        sx={{
+          position: 'absolute',
+          top: size * 0.25,
+          left: size * 0.3,
+          width: size * 0.08,
+          height: size * 0.08,
+          background: '#fff',
+          borderRadius: '50%',
+          '&::after': {
+            content: '""',
+            position: 'absolute',
+            top: '25%',
+            left: '25%',
+            width: '50%',
+            height: '50%',
+            background: '#333',
+            borderRadius: '50%',
+          }
+        }}
+      />
+      <Box
+        sx={{
+          position: 'absolute',
+          top: size * 0.25,
+          right: size * 0.3,
+          width: size * 0.08,
+          height: size * 0.08,
+          background: '#fff',
+          borderRadius: '50%',
+          '&::after': {
+            content: '""',
+            position: 'absolute',
+            top: '25%',
+            left: '25%',
+            width: '50%',
+            height: '50%',
+            background: '#333',
+            borderRadius: '50%',
+          }
+        }}
+      />
+      
+      {/* 입 */}
+      <Box
+        sx={{
+          position: 'absolute',
+          bottom: size * 0.2,
+          left: '50%',
+          transform: 'translateX(-50%)',
+          width: size * 0.15,
+          height: size * 0.08,
+          border: '2px solid #fff',
+          borderTop: 'none',
+          borderRadius: '0 0 50% 50%',
+        }}
+      />
+
+      {/* 기분 이모지 */}
+      <Box
+        sx={{
+          position: 'absolute',
+          top: -size * 0.3,
+          left: '50%',
+          transform: 'translateX(-50%)',
+          fontSize: size * 0.3,
+          filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))',
+        }}
+      >
+        {moodEmoji[mood]}
+      </Box>
+    </Box>
+  );
+};
+
+// 지출 계획 탭 컴포넌트 (개선된 버전)
+const ExpensePlanningTab = () => {
+  const [pregnancyWeek, setPregnancyWeek] = useState(24);
+  const [incomeLevel, setIncomeLevel] = useState('middle');
+  const [poingMood, setPoingMood] = useState('happy');
+
+  const handlePregnancyWeekChange = (event, newValue) => {
+    setPregnancyWeek(newValue);
+    // 임신 주수에 따른 포잉이 기분 변화
+    if (newValue <= 12) setPoingMood('thoughtful');
+    else if (newValue <= 24) setPoingMood('happy');
+    else if (newValue <= 36) setPoingMood('excited');
+    else setPoingMood('caring');
+  };
+
+  const handleIncomeLevelChange = (event) => {
+    setIncomeLevel(event.target.value);
+  };
+
+  // 월별 지출 데이터 (곡선 그래프용)
+  const monthlyExpenses = [30, 45, 60, 80, 70, 65, 55, 50, 45, 40, 35, 30];
+  const totalExpense = monthlyExpenses.reduce((sum, expense) => sum + expense, 0) * 10; // 만원 단위
+
+  // 지출 구성
+  const expenseBreakdown = [
+    { category: '조리원비', percentage: 40, color: '#ffb3d9' },
+    { category: '육아용품', percentage: 30, color: '#b3d9ff' },
+    { category: '의료비', percentage: 20, color: '#d9ffb3' },
+    { category: '기타', percentage: 10, color: '#ffd9b3' }
+  ];
+
+  return (
+    <Container maxWidth="lg" sx={{ py: 3 }}>
+      {/* 헤더 섹션 */}
+      <Box sx={{ mb: 4, textAlign: 'center' }}>
+        <PoingCharacter 
+          size={100} 
+          style={{ margin: '0 auto 20px' }} 
+          pregnancyWeek={pregnancyWeek}
+          mood={poingMood}
+        />
+        <Typography 
+          variant="h3" 
+          sx={{ 
+            color: '#2e7d32', 
+            mb: 1, 
+            fontWeight: 700,
+            background: 'linear-gradient(135deg, #2e7d32 0%, #4caf50 100%)',
+            backgroundClip: 'text',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent'
+          }}
+        >
+          📊 지출 계획
+        </Typography>
+        <Typography variant="h6" sx={{ color: '#666', fontWeight: 300 }}>
+          포잉이와 함께 스마트한 육아 비용 계획을 세워보세요!
+        </Typography>
+      </Box>
+
+      <Box sx={{ display: 'grid', gap: 4, gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' } }}>
+        {/* 출산·육아비용 시뮬레이터 (개선된 버전) */}
+        <Paper 
+          elevation={3} 
+          sx={{ 
+            p: 4, 
+            borderRadius: 4,
+            background: 'linear-gradient(135deg, #f8fff8 0%, #f0f8f0 100%)',
+            border: '1px solid #e8f5e8'
+          }}
+        >
+          <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+            <PregnantWomanIcon sx={{ color: '#4caf50', mr: 1, fontSize: 28 }} />
+            <Typography variant="h5" sx={{ color: '#2e7d32', fontWeight: 600 }}>
+              💰 출산·육아비용 시뮬레이터
+            </Typography>
+          </Box>
+
+          {/* 임신 주수 슬라이더 */}
+          <Box sx={{ mb: 4 }}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+              <Typography variant="subtitle1" sx={{ color: '#2e7d32', fontWeight: 500 }}>
+                🤰 임신 주수
+              </Typography>
+              <Chip 
+                label={`${pregnancyWeek}주차`} 
+                sx={{ 
+                  bgcolor: '#e8f5e8', 
+                  color: '#2e7d32',
+                  fontWeight: 600,
+                  fontSize: '0.9rem'
+                }} 
+              />
+            </Box>
+            <Slider
+              value={pregnancyWeek}
+              onChange={handlePregnancyWeekChange}
+              min={1}
+              max={40}
+              step={1}
+              sx={{
+                '& .MuiSlider-track': {
+                  background: 'linear-gradient(90deg, #4caf50 0%, #81c784 100%)',
+                  height: 8,
+                  borderRadius: 4,
+                },
+                '& .MuiSlider-thumb': {
+                  width: 24,
+                  height: 24,
+                  background: '#4caf50',
+                  boxShadow: '0 2px 8px rgba(76, 175, 80, 0.3)',
+                  '&:hover': {
+                    boxShadow: '0 4px 12px rgba(76, 175, 80, 0.4)',
+                  }
+                },
+                '& .MuiSlider-rail': {
+                  height: 8,
+                  borderRadius: 4,
+                  bgcolor: '#e0e0e0'
+                }
+              }}
+            />
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 1 }}>
+              <Typography variant="caption" sx={{ color: '#666' }}>1주차</Typography>
+              <Typography variant="caption" sx={{ color: '#666' }}>40주차</Typography>
+            </Box>
+          </Box>
+
+          {/* 소득 분위 선택 */}
+          <Box sx={{ mb: 3 }}>
+            <Typography variant="subtitle1" sx={{ color: '#2e7d32', fontWeight: 500, mb: 2 }}>
+              💵 소득 분위
+            </Typography>
+            <FormControl fullWidth>
+              <Select
+                value={incomeLevel}
+                onChange={handleIncomeLevelChange}
+                sx={{
+                  '& .MuiOutlinedInput-notchedOutline': {
+                    borderColor: '#c8e6c9',
+                  },
+                  '&:hover .MuiOutlinedInput-notchedOutline': {
+                    borderColor: '#4caf50',
+                  },
+                  '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                    borderColor: '#4caf50',
+                  }
+                }}
+              >
+                <MenuItem value="low">
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <Box sx={{ width: 12, height: 12, borderRadius: '50%', bgcolor: '#ffcdd2' }} />
+                    저소득 (중위소득 50% 이하)
+                  </Box>
+                </MenuItem>
+                <MenuItem value="middle">
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <Box sx={{ width: 12, height: 12, borderRadius: '50%', bgcolor: '#c8e6c9' }} />
+                    중위소득 (중위소득 50-150%)
+                  </Box>
+                </MenuItem>
+                <MenuItem value="high">
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <Box sx={{ width: 12, height: 12, borderRadius: '50%', bgcolor: '#dcedc8' }} />
+                    고소득 (중위소득 150% 이상)
+                  </Box>
+                </MenuItem>
+              </Select>
+            </FormControl>
+          </Box>
+
+          {/* 포잉이 반응 */}
+          <Box sx={{ textAlign: 'center', mt: 3 }}>
+            <PoingCharacter size={60} pregnancyWeek={pregnancyWeek} mood={poingMood} />
+            <Typography variant="body2" sx={{ color: '#666', mt: 1 }}>
+              {pregnancyWeek <= 12 && "아직 작은 씨앗이에요! 차근차근 준비해봐요 🌱"}
+              {pregnancyWeek > 12 && pregnancyWeek <= 24 && "새싹이 자라고 있어요! 포잉이가 도와드릴게요 🌿"}
+              {pregnancyWeek > 24 && pregnancyWeek <= 36 && "꽃이 피어나고 있어요! 곧 만나요 🌸"}
+              {pregnancyWeek > 36 && "곧 만나요! 포잉이가 응원할게요 💕"}
+            </Typography>
+          </Box>
+        </Paper>
+
+        {/* 월별 예상 지출 (개선된 그래프) */}
+        <Paper 
+          elevation={3} 
+          sx={{ 
+            p: 4, 
+            borderRadius: 4,
+            background: 'linear-gradient(135deg, #f8fff8 0%, #f0f8f0 100%)',
+            border: '1px solid #e8f5e8'
+          }}
+        >
+          <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+            <MoneyIcon sx={{ color: '#4caf50', mr: 1, fontSize: 28 }} />
+            <Typography variant="h5" sx={{ color: '#2e7d32', fontWeight: 600 }}>
+              📈 월별 예상 지출
+            </Typography>
+          </Box>
+
+          {/* 총 예상 지출액 */}
+          <Box sx={{ textAlign: 'center', mb: 4, p: 3, bgcolor: '#e8f5e8', borderRadius: 3 }}>
+            <Typography variant="h4" sx={{ color: '#2e7d32', fontWeight: 700, mb: 1 }}>
+              💰 {totalExpense.toLocaleString()}만원
+            </Typography>
+            <Typography variant="body2" sx={{ color: '#666' }}>
+              총 예상 지출액
+            </Typography>
+          </Box>
+
+          {/* 곡선 그래프 */}
+          <Box sx={{ mb: 4 }}>
+            <Box sx={{ height: 150, position: 'relative', mb: 2 }}>
+              <svg width="100%" height="100%" style={{ position: 'absolute', top: 0, left: 0 }}>
+                <defs>
+                  <linearGradient id="expenseGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stopColor="#4caf50" stopOpacity="0.8" />
+                    <stop offset="100%" stopColor="#81c784" stopOpacity="0.4" />
+                  </linearGradient>
+                </defs>
+                <path
+                  d={`M 0 ${150 - (monthlyExpenses[0] / 80) * 120} ${monthlyExpenses.map((expense, index) => {
+                    const x = (index / (monthlyExpenses.length - 1)) * 100;
+                    const y = 150 - (expense / 80) * 120;
+                    return `L ${x} ${y}`;
+                  }).join(' ')}`}
+                  stroke="url(#expenseGradient)"
+                  strokeWidth="3"
+                  fill="none"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                {monthlyExpenses.map((expense, index) => {
+                  const x = (index / (monthlyExpenses.length - 1)) * 100;
+                  const y = 150 - (expense / 80) * 120;
+                  return (
+                    <circle
+                      key={index}
+                      cx={`${x}%`}
+                      cy={y}
+                      r="4"
+                      fill="#4caf50"
+                      stroke="#fff"
+                      strokeWidth="2"
+                    />
+                  );
+                })}
+              </svg>
+            </Box>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', color: '#666' }}>
+              <span>1월</span>
+              <span>3월</span>
+              <span>6월</span>
+              <span>9월</span>
+              <span>12월</span>
+            </Box>
+          </Box>
+
+          {/* 지출 구성 요약 */}
+          <Box>
+            <Typography variant="subtitle1" sx={{ color: '#2e7d32', fontWeight: 500, mb: 2 }}>
+              💡 지출 구성
+            </Typography>
+            <Box sx={{ display: 'grid', gap: 1 }}>
+              {expenseBreakdown.map((item, index) => (
+                <Box key={index} sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                  <Box sx={{ width: 12, height: 12, borderRadius: '50%', bgcolor: item.color }} />
+                  <Typography variant="body2" sx={{ flex: 1, color: '#666' }}>
+                    {item.category}
+                  </Typography>
+                  <Typography variant="body2" sx={{ color: '#2e7d32', fontWeight: 500 }}>
+                    {item.percentage}%
+                  </Typography>
+                </Box>
+              ))}
+            </Box>
+          </Box>
+        </Paper>
+
+        {/* 유사 가족 지출 비교 (개선된 버전) */}
+        <Paper 
+          elevation={3} 
+          sx={{ 
+            p: 4, 
+            borderRadius: 4,
+            gridColumn: { xs: '1', md: '1 / -1' },
+            background: 'linear-gradient(135deg, #f8fff8 0%, #f0f8f0 100%)',
+            border: '1px solid #e8f5e8'
+          }}
+        >
+          <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+            <FamilyIcon sx={{ color: '#4caf50', mr: 1, fontSize: 28 }} />
+            <Typography variant="h5" sx={{ color: '#2e7d32', fontWeight: 600 }}>
+              👥 나와 닮은 가족은 이렇게 썼어요
+            </Typography>
+          </Box>
+
+          <Box sx={{ display: 'grid', gap: 3, gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr', md: '1fr 1fr 1fr' } }}>
+            {[
+              {
+                name: '김씨 가족',
+                location: '서울 강남구',
+                income: '중위소득 80%',
+                expense: '월 평균 85만원',
+                comment: '조리원비가 가장 큰 부담이었어요',
+                avatar: '😊',
+                color: '#ffb3d9'
+              },
+              {
+                name: '이씨 가족',
+                location: '부산 해운대구',
+                income: '중위소득 90%',
+                expense: '월 평균 72만원',
+                comment: '지방이라 조금 덜 부담스러웠어요',
+                avatar: '🧐',
+                color: '#b3d9ff'
+              },
+              {
+                name: '박씨 가족',
+                location: '대구 수성구',
+                income: '중위소득 70%',
+                expense: '월 평균 68만원',
+                comment: '용품은 중고로 많이 구했어요',
+                avatar: '🥰',
+                color: '#d9ffb3'
+              }
+            ].map((family, index) => (
+              <Paper
+                key={index}
+                elevation={2}
+                sx={{
+                  p: 3,
+                  borderRadius: 3,
+                  background: 'white',
+                  border: `2px solid ${family.color}`,
+                  transition: 'all 0.3s ease',
+                  '&:hover': {
+                    transform: 'translateY(-4px)',
+                    boxShadow: '0 8px 25px rgba(0,0,0,0.15)',
+                  }
+                }}
+              >
+                <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                  <Avatar sx={{ bgcolor: family.color, mr: 2, fontSize: '1.2rem' }}>
+                    {family.avatar}
+                  </Avatar>
+                  <Box>
+                    <Typography variant="subtitle1" sx={{ color: '#2e7d32', fontWeight: 600 }}>
+                      {family.name}
+                    </Typography>
+                    <Typography variant="caption" sx={{ color: '#666' }}>
+                      {family.location}
+                    </Typography>
+                  </Box>
+                </Box>
+
+                <Box sx={{ mb: 2 }}>
+                  <Chip 
+                    label={family.income} 
+                    size="small" 
+                    sx={{ 
+                      bgcolor: '#e8f5e8', 
+                      color: '#2e7d32',
+                      mb: 1,
+                      fontSize: '0.75rem'
+                    }} 
+                  />
+                  <Typography variant="h6" sx={{ color: '#2e7d32', fontWeight: 600 }}>
+                    {family.expense}
+                  </Typography>
+                </Box>
+
+                <Typography variant="body2" sx={{ color: '#666', mb: 2, fontStyle: 'italic' }}>
+                  "{family.comment}"
+                </Typography>
+
+                <Button
+                  variant="outlined"
+                  size="small"
+                  sx={{
+                    borderColor: family.color,
+                    color: family.color,
+                    '&:hover': {
+                      borderColor: family.color,
+                      bgcolor: `${family.color}10`,
+                    }
+                  }}
+                >
+                  자세히 보기
+                </Button>
+              </Paper>
+            ))}
+          </Box>
+        </Paper>
+      </Box>
+    </Container>
+  );
+};
+
+// 혜택 추천 탭 컴포넌트
+const BenefitRecommendationTab = () => (
+  <Container maxWidth="lg" sx={{ py: 3 }}>
+    <Box sx={{ mb: 4, textAlign: 'center' }}>
+      <PoingCharacter size={80} style={{ margin: '0 auto 16px' }} />
+      <Typography variant="h4" sx={{ color: '#2e7d32', mb: 1 }}>
+        🎁 혜택 추천
+      </Typography>
+      <Typography variant="body1" sx={{ color: '#666' }}>
+        포잉이가 찾아준 맞춤형 정부 지원금을 확인해보세요!
+      </Typography>
+    </Box>
+
+    <Box sx={{ display: 'grid', gap: 3 }}>
+      {/* AI 맞춤형 정부 지원금 추천 */}
+      <Paper elevation={3} sx={{ p: 3, borderRadius: 3 }}>
+        <Typography variant="h6" sx={{ mb: 2, color: '#2e7d32' }}>
+          🤖 AI 맞춤형 정부 지원금 추천
+        </Typography>
+        <Box sx={{ display: 'grid', gap: 2, gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' } }}>
+          <Box sx={{ p: 2, bgcolor: '#e8f5e8', borderRadius: 2 }}>
+            <Typography variant="subtitle1" sx={{ color: '#2e7d32', mb: 1 }}>
+              출산장려금
+            </Typography>
+            <Typography variant="body2" sx={{ color: '#666', mb: 1 }}>
+              서울시 거주자 대상
+            </Typography>
+            <Typography variant="h6" sx={{ color: '#2e7d32' }}>
+              200만원
+            </Typography>
+            <Box sx={{ mt: 1 }}>
+              <Typography variant="caption" sx={{ color: '#4caf50', fontWeight: 'bold' }}>
+                신청하기 →
+              </Typography>
+            </Box>
+          </Box>
+          <Box sx={{ p: 2, bgcolor: '#e8f5e8', borderRadius: 2 }}>
+            <Typography variant="subtitle1" sx={{ color: '#2e7d32', mb: 1 }}>
+              육아수당
+            </Typography>
+            <Typography variant="body2" sx={{ color: '#666', mb: 1 }}>
+              만 0-2세 자녀 대상
+            </Typography>
+            <Typography variant="h6" sx={{ color: '#2e7d32' }}>
+              월 30만원
+            </Typography>
+            <Box sx={{ mt: 1 }}>
+              <Typography variant="caption" sx={{ color: '#4caf50', fontWeight: 'bold' }}>
+                신청하기 →
+              </Typography>
+            </Box>
+          </Box>
+        </Box>
+      </Paper>
+
+      {/* 자동 알림 카드 */}
+      <Paper elevation={3} sx={{ p: 3, borderRadius: 3 }}>
+        <Typography variant="h6" sx={{ mb: 2, color: '#2e7d32' }}>
+          🔔 자동 알림
+        </Typography>
+                 <Box sx={{ display: 'grid', gap: 2, gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr 1fr' } }}>
+           <Box className="notification-card" sx={{ p: 2, bgcolor: '#fff3e0', borderRadius: 2, border: '1px solid #ffb74d' }}>
+             <Typography variant="subtitle2" sx={{ color: '#e65100' }}>출산 예정일</Typography>
+             <Typography variant="body2" sx={{ color: '#666' }}>2024년 3월 15일</Typography>
+           </Box>
+           <Box className="notification-card" sx={{ p: 2, bgcolor: '#fff3e0', borderRadius: 2, border: '1px solid #ffb74d' }}>
+             <Typography variant="subtitle2" sx={{ color: '#e65100' }}>세금 환급</Typography>
+             <Typography variant="body2" sx={{ color: '#666' }}>2024년 5월 예정</Typography>
+           </Box>
+           <Box className="notification-card" sx={{ p: 2, bgcolor: '#fff3e0', borderRadius: 2, border: '1px solid #ffb74d' }}>
+             <Typography variant="subtitle2" sx={{ color: '#e65100' }}>육아수당 신청</Typography>
+             <Typography variant="body2" sx={{ color: '#666' }}>출산 후 1개월 내</Typography>
+           </Box>
+         </Box>
+      </Paper>
+    </Box>
+  </Container>
+);
+
+// 육아 준비 탭 컴포넌트
+const ParentingPreparationTab = () => (
+  <Container maxWidth="lg" sx={{ py: 3 }}>
+    <Box sx={{ mb: 4, textAlign: 'center' }}>
+      <PoingCharacter size={80} style={{ margin: '0 auto 16px' }} />
+      <Typography variant="h4" sx={{ color: '#2e7d32', mb: 1 }}>
+        🧸 육아 준비
+      </Typography>
+      <Typography variant="body1" sx={{ color: '#666' }}>
+        포잉이와 함께 체계적으로 육아 준비를 해보세요!
+      </Typography>
+    </Box>
+
+    <Box sx={{ display: 'grid', gap: 3 }}>
+      {/* 육아 준비 체크리스트 */}
+      <Paper elevation={3} sx={{ p: 3, borderRadius: 3 }}>
+        <Typography variant="h6" sx={{ mb: 2, color: '#2e7d32' }}>
+          ✅ 육아 준비 체크리스트
+        </Typography>
+        <Box sx={{ display: 'grid', gap: 2, gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' } }}>
+          <Box>
+            <Typography variant="subtitle2" sx={{ color: '#2e7d32', mb: 1 }}>임신 1기 (1-3개월)</Typography>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                             {['산부인과 예약', '엽산 복용 시작', '임신부 등록'].map((item, index) => (
+                 <Box key={index} className="checklist-item" sx={{ display: 'flex', alignItems: 'center', gap: 1, p: 0.5 }}>
+                   <Box
+                     sx={{
+                       width: 20,
+                       height: 20,
+                       borderRadius: '50%',
+                       bgcolor: index < 2 ? '#4caf50' : '#e0e0e0',
+                       display: 'flex',
+                       alignItems: 'center',
+                       justifyContent: 'center',
+                       color: 'white',
+                       fontSize: 12
+                     }}
+                   >
+                     {index < 2 ? '✓' : ''}
+                   </Box>
+                   <Typography variant="body2" sx={{ color: index < 2 ? '#2e7d32' : '#666' }}>
+                     {item}
+                   </Typography>
+                 </Box>
+               ))}
+            </Box>
+          </Box>
+          <Box>
+            <Typography variant="subtitle2" sx={{ color: '#2e7d32', mb: 1 }}>임신 2기 (4-6개월)</Typography>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                             {['출산용품 준비', '산모교실 신청', '육아용품 조사'].map((item, index) => (
+                 <Box key={index} className="checklist-item" sx={{ display: 'flex', alignItems: 'center', gap: 1, p: 0.5 }}>
+                   <Box
+                     sx={{
+                       width: 20,
+                       height: 20,
+                       borderRadius: '50%',
+                       bgcolor: index < 1 ? '#4caf50' : '#e0e0e0',
+                       display: 'flex',
+                       alignItems: 'center',
+                       justifyContent: 'center',
+                       color: 'white',
+                       fontSize: 12
+                     }}
+                   >
+                     {index < 1 ? '✓' : ''}
+                   </Box>
+                   <Typography variant="body2" sx={{ color: index < 1 ? '#2e7d32' : '#666' }}>
+                     {item}
+                   </Typography>
+                 </Box>
+               ))}
+            </Box>
+          </Box>
+        </Box>
+      </Paper>
+
+      {/* 육아 용품 물가 비교 */}
+      <Paper elevation={3} sx={{ p: 3, borderRadius: 3 }}>
+        <Typography variant="h6" sx={{ mb: 2, color: '#2e7d32' }}>
+          🛒 육아 용품 물가 비교
+        </Typography>
+        <Box sx={{ display: 'grid', gap: 2, gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr 1fr' } }}>
+          <Box sx={{ p: 2, bgcolor: '#f1f8e9', borderRadius: 2 }}>
+            <Typography variant="subtitle2" sx={{ color: '#2e7d32' }}>기저귀 (M사이즈)</Typography>
+            <Typography variant="body2" sx={{ color: '#666' }}>평균 0.8원/장</Typography>
+            <Typography variant="caption" sx={{ color: '#4caf50' }}>최저가: 마트A</Typography>
+          </Box>
+          <Box sx={{ p: 2, bgcolor: '#f1f8e9', borderRadius: 2 }}>
+            <Typography variant="subtitle2" sx={{ color: '#2e7d32' }}>분유 (900g)</Typography>
+            <Typography variant="body2" sx={{ color: '#666' }}>평균 3.2만원</Typography>
+            <Typography variant="caption" sx={{ color: '#4caf50' }}>최저가: 온라인B</Typography>
+          </Box>
+          <Box sx={{ p: 2, bgcolor: '#f1f8e9', borderRadius: 2 }}>
+            <Typography variant="subtitle2" sx={{ color: '#2e7d32' }}>유모차</Typography>
+            <Typography variant="body2" sx={{ color: '#666' }}>평균 45만원</Typography>
+            <Typography variant="caption" sx={{ color: '#4caf50' }}>추천: 브랜드C</Typography>
+          </Box>
+        </Box>
+      </Paper>
+    </Box>
+  </Container>
+);
+
+// 퀴즈·상담 탭 컴포넌트
+const QuizConsultationTab = () => (
+  <Container maxWidth="lg" sx={{ py: 3 }}>
+    <Box sx={{ mb: 4, textAlign: 'center' }}>
+      <PoingCharacter size={80} style={{ margin: '0 auto 16px' }} />
+      <Typography variant="h4" sx={{ color: '#2e7d32', mb: 1 }}>
+        📚 퀴즈·상담
+      </Typography>
+      <Typography variant="body1" sx={{ color: '#666' }}>
+        포잉이와 함께 재미있게 배우고 상담받아보세요!
+      </Typography>
+    </Box>
+
+    <Box sx={{ display: 'grid', gap: 3 }}>
+      {/* 1분 요약 카드뉴스 */}
+      <Paper elevation={3} sx={{ p: 3, borderRadius: 3 }}>
+        <Typography variant="h6" sx={{ mb: 2, color: '#2e7d32' }}>
+          📰 1분 요약 카드뉴스
+        </Typography>
+        <Box sx={{ p: 2, bgcolor: '#e3f2fd', borderRadius: 2, border: '1px solid #2196f3' }}>
+          <Typography variant="subtitle1" sx={{ color: '#1565c0', mb: 1 }}>
+            놓치기 쉬운 제도 TOP5
+          </Typography>
+          <Typography variant="body2" sx={{ color: '#666' }}>
+            1. 출산장려금 2. 육아수당 3. 세금공제 4. 의료비 지원 5. 교육비 지원
+          </Typography>
+        </Box>
+      </Paper>
+
+      {/* 복지 퀴즈 */}
+      <Paper elevation={3} sx={{ p: 3, borderRadius: 3 }}>
+        <Typography variant="h6" sx={{ mb: 2, color: '#2e7d32' }}>
+          🎯 복지 퀴즈
+        </Typography>
+        <Box sx={{ p: 2, bgcolor: '#f3e5f5', borderRadius: 2, border: '1px solid #9c27b0' }}>
+          <Typography variant="subtitle2" sx={{ color: '#7b1fa2', mb: 1 }}>
+            Q. 육아수당은 언제부터 받을 수 있나요?
+          </Typography>
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                         {['A. 출산 즉시', 'B. 출산 후 1개월', 'C. 출산 후 3개월', 'D. 출산 후 6개월'].map((option, index) => (
+               <Box
+                 key={index}
+                 className="quiz-option"
+                 sx={{
+                   p: 1,
+                   bgcolor: index === 0 ? '#e8f5e8' : '#fff',
+                   borderRadius: 1,
+                   border: index === 0 ? '2px solid #4caf50' : '1px solid #e0e0e0',
+                   cursor: 'pointer',
+                   '&:hover': { bgcolor: '#f1f8e9' }
+                 }}
+               >
+                 <Typography variant="body2" sx={{ color: index === 0 ? '#2e7d32' : '#666' }}>
+                   {option}
+                 </Typography>
+               </Box>
+             ))}
+          </Box>
+        </Box>
+      </Paper>
+
+      {/* 포잉이 챗봇 */}
+      <Paper elevation={3} sx={{ p: 3, borderRadius: 3 }}>
+        <Typography variant="h6" sx={{ mb: 2, color: '#2e7d32' }}>
+          💬 포잉이 챗봇
+        </Typography>
+        <Box sx={{ height: 300, bgcolor: '#f9f9f9', borderRadius: 2, p: 2, display: 'flex', flexDirection: 'column' }}>
+                     <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 2, mb: 2 }}>
+             <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1 }}>
+               <PoingCharacter size={40} />
+               <Box className="chat-message" sx={{ p: 2, bgcolor: '#e8f5e8', borderRadius: 2, maxWidth: '80%' }}>
+                 <Typography variant="body2">
+                   안녕하세요! 포잉이입니다. 궁금한 것이 있으시면 언제든 물어보세요! 🌱
+                 </Typography>
+               </Box>
+             </Box>
+             <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1, justifyContent: 'flex-end' }}>
+               <Box className="chat-message" sx={{ p: 2, bgcolor: '#fff', borderRadius: 2, maxWidth: '80%', border: '1px solid #e0e0e0' }}>
+                 <Typography variant="body2">
+                   육아수당 신청 방법을 알려주세요
+                 </Typography>
+               </Box>
+             </Box>
+             <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1 }}>
+               <PoingCharacter size={40} />
+               <Box className="chat-message" sx={{ p: 2, bgcolor: '#e8f5e8', borderRadius: 2, maxWidth: '80%' }}>
+                 <Typography variant="body2">
+                   육아수당은 출산 후 1개월 내에 주민센터나 온라인으로 신청하시면 됩니다! 필요한 서류는...
+                 </Typography>
+               </Box>
+             </Box>
+           </Box>
+          <Box sx={{ display: 'flex', gap: 1 }}>
+            <Box
+              sx={{
+                flex: 1,
+                p: 1,
+                border: '1px solid #e0e0e0',
+                borderRadius: 2,
+                bgcolor: '#fff'
+              }}
+            >
+              <Typography variant="body2" sx={{ color: '#999' }}>
+                메시지를 입력하세요...
+              </Typography>
+            </Box>
+            <Box
+              sx={{
+                p: 1,
+                bgcolor: '#4caf50',
+                borderRadius: 2,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer',
+                color: 'white'
+              }}
+            >
+              <Typography variant="body2">전송</Typography>
+            </Box>
+          </Box>
+        </Box>
+      </Paper>
+    </Box>
+  </Container>
+);
+
+// 메인 앱 컴포넌트
+function App() {
+  const [currentTab, setCurrentTab] = useState(0);
+
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: '#4caf50',
+      },
+      secondary: {
+        main: '#81c784',
+      },
+    },
+    typography: {
+      fontFamily: '"Noto Sans KR", "Roboto", "Helvetica", "Arial", sans-serif',
+    },
+  });
+
+  const handleTabChange = (event, newValue) => {
+    setCurrentTab(newValue);
+  };
+
+  const renderTabContent = () => {
+    switch (currentTab) {
+      case 0:
+        return <ExpensePlanningTab />;
+      case 1:
+        return <BenefitRecommendationTab />;
+      case 2:
+        return <ParentingPreparationTab />;
+      case 3:
+        return <QuizConsultationTab />;
+      default:
+        return <ExpensePlanningTab />;
+    }
+  };
+
+  return (
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Box sx={{ flexGrow: 1 }}>
+        <AppBar position="static" sx={{ bgcolor: '#4caf50' }}>
+          <Toolbar>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+              <PoingCharacter size={40} />
+              <Box>
+                <Typography variant="h6" sx={{ color: 'white', fontWeight: 'bold' }}>
+                  포잉 (Poing)
+                </Typography>
+                <Typography variant="caption" sx={{ color: '#e8f5e8' }}>
+                  예비 부모를 위한 똑똑한 금융 매니저
+                </Typography>
+              </Box>
+            </Box>
+          </Toolbar>
+        </AppBar>
+
+        <Box sx={{ borderBottom: 1, borderColor: 'divider', bgcolor: '#f9f9f9' }}>
+          <Container maxWidth="lg">
+            <Tabs
+              value={currentTab}
+              onChange={handleTabChange}
+              variant="scrollable"
+              scrollButtons="auto"
+              sx={{
+                '& .MuiTab-root': {
+                  minHeight: 64,
+                  fontSize: '0.9rem',
+                  fontWeight: 500,
+                },
+                '& .Mui-selected': {
+                  color: '#2e7d32',
+                },
+              }}
+            >
+              <Tab
+                icon={<TrendingUpIcon />}
+                label="📊 지출 계획"
+                sx={{ color: '#666' }}
+              />
+              <Tab
+                icon={<GiftIcon />}
+                label="🎁 혜택 추천"
+                sx={{ color: '#666' }}
+              />
+              <Tab
+                icon={<ChildCareIcon />}
+                label="🧸 육아 준비"
+                sx={{ color: '#666' }}
+              />
+              <Tab
+                icon={<QuizIcon />}
+                label="📚 퀴즈·상담"
+                sx={{ color: '#666' }}
+              />
+            </Tabs>
+          </Container>
+        </Box>
+
+        <Box sx={{ bgcolor: '#fafafa', minHeight: 'calc(100vh - 200px)' }}>
+          {renderTabContent()}
+        </Box>
+      </Box>
+    </ThemeProvider>
+  );
+}
+
+export default App;
